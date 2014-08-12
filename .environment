@@ -1,0 +1,64 @@
+
+export LANG=en_US.utf8
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:~/lib
+
+# set PATH so it includes user's private bin if it exists
+if [ -d ~/bin ] ; then
+    PATH=~/bin:$PATH
+fi
+
+export PATH=$PATH:/sbin
+
+# Para que no borre la pantalla al sair
+export LESS="-X"
+
+# Para que sdl prefiera usar ALSA
+export SDL_AUDIODRIVER=alsa
+
+# Para scummvm
+export SCUMMVM_PORT=128:0
+
+export ALSA_OUTPUT_PORTS=128:0
+
+# Para TeX, para que busque en el directorio. (importante los dos puntos).
+export TEXINPUTS=~/.tex/:
+
+# Custom prompt
+
+export CFLAGS_TMP="-O3 -pipe -Wall -Wno-unused -march=native -fomit-frame-pointer \
+  -fstrict-aliasing -fstrength-reduce -ffast-math -malign-double \
+  -mmmx -msse -m3dnow -mfpmath=sse,387 \
+  -funroll-loops -fexpensive-optimizations"
+
+#export MC_COLOR_TABLE="\
+#normal=lightgray,black:selected=black,cyan:executable=,black:\
+#link=,black:device=,black:special=red,black:\
+#directory=lightgray,black:core=lightred,black:\
+#selected=black,cyan:marked=yellow,black:\
+#marked=yellow,black:editnormal=lightgray,black:stalelink=brigthred,black:\
+#viewunderline=brightred,black:\
+#editnormal=lightgray,black"
+
+export MC_SKIN=darkfar
+
+# Add color
+eval `dircolors -b`
+
+# No guardar duplicados en el history
+export HISTCONTROL=ignoredups
+
+#export PAGER=most
+#export EDITOR=mcedit
+export EDITOR=vim
+#export PAGER=less
+export PAGER=vimpager
+
+# Casi todos los xterm soportan 256 colores
+#if [ "$TERM" == "xterm" ]; then
+#	export TERM="xterm-256color"
+#fi
+
+
+export ACE_ROOT=/opt/iway/deps/ACE_wrappers
+export ORACLE_HOME=/opt/iway/oracle/10.2.0.4/client64
+

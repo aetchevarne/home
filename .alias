@@ -1,0 +1,15 @@
+alias mathematica='/usr/local/bin/mathematica -primaryModifierMask Mod1Mask -secondaryModifierMask Mod3Mask'
+alias ch='valgrind --leak-check=full -v --leak-resolution=high --show-reachable=yes  '
+alias vmore='/usr/share/vim/vim74/macros/less.sh'
+alias ed='$EDITOR'
+alias pampero='ssh -C -l aetcheva 209.13.158.17'
+alias grep='/usr/bin/grep --color'
+alias startx='exec /usr/bin/startx'
+alias ack='/usr/bin/vendor_perl/ack'
+alias vdiff='svn diff | vim -R -'
+alias tmux='/usr/bin/tmux -2'
+
+sql() { echo -e "set wrap off\nset linesize 3000\nset colsep |\n" $* | sqlplus -silent intraway@ORCL/iwjaja }
+
+. /usr/lib/mc/mc.sh
+
