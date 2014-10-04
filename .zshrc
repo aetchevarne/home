@@ -21,7 +21,8 @@ antigen bundle svn-fast-info
 antigen bundle zsh-users/zsh-completions src
 antigen bundle zsh-users/zsh-syntax-highlighting
 
-antigen theme gentoo
+#antigen theme gentoo
+antigen theme af-magic
 
 antigen apply
 
