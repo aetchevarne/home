@@ -6,12 +6,6 @@ zstyle :compinstall filename '/home/saknussemm/.zshrc'
 autoload -Uz compinit
 compinit
 # End of lines added by compinstall
-# Lines configured by zsh-newuser-install
-unsetopt beep
-unsetopt share_history
-bindkey -e
-# End of lines configured by zsh-newuser-install
-
 #source /usr/share/zsh/scripts/antigen/antigen.zsh
 source ~/.antigen/antigen/antigen.zsh 
 antigen use oh-my-zsh
@@ -28,4 +22,11 @@ antigen apply
 
 . ~/.environment
 . ~/.alias
+
+# Lines configured by zsh-newuser-install
+unsetopt beep
+unsetopt share_history
+bindkey -e
+# End of lines configured by zsh-newuser-install
+
 
