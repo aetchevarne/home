@@ -14,6 +14,7 @@ files() {
 	lsof -nP -p $(pidof $1)
 }
 
+alias mutt='env TERM=xterm-256color /usr/bin/mutt'
 
 sql() { echo -e "set wrap off\nset linesize 3000\nset colsep |\n" $* | sqlplus -silent intraway@ORCL/iwjaja }
 
