@@ -8,6 +8,12 @@ alias startx='exec /usr/bin/startx'
 alias ack='/usr/bin/vendor_perl/ack'
 alias vdiff='svn diff | vim -R -'
 alias tmux='/usr/bin/tmux -2'
+alias temacs='env TERM=xterm-256color emacs -nw'
+
+files() {
+	lsof -nP -p $(pidof $1)
+}
+
 
 sql() { echo -e "set wrap off\nset linesize 3000\nset colsep |\n" $* | sqlplus -silent intraway@ORCL/iwjaja }
 
