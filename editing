@@ -4,7 +4,9 @@ indispensable:
 C-x C-c C-v: cortar, copiar, pegar
 F8: Compilar
 C-s: grabar.
+Home/End: ir al principio/fin de línea.
 
-Deseable
+
+Deseable:
 C-Left C-Right: atrás/adelante por palabra
 
