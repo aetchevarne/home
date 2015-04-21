@@ -7,33 +7,32 @@
 (require 'yasnippet)
 (yas-global-mode 1)
 
-
-;; Autocomplete
-(require 'auto-complete)
-(require 'auto-complete-config)
-(ac-config-default)
-
-;; Autocomplete for C/C++
-(defun my:ac-c-header-init()
-  (require 'auto-complete-c-headers)
-  (add-to-list 'ac-sources 'ac-source-c-headers)
-; Custom directories
-;  (add-to-list 'achead:include-directories '"/usr/include")
-)
-
-(add-hook 'c++-mode-hook 'my:ac-c-header-init)
-(add-hook 'c-mode-hook 'my:ac-c-header-init)
-
 ;; CEDET - semantic
 (semantic-mode 1)
-(defun my:add-semantic-to-autocomplete()
-  (add-to-list 'ac-sources 'ac-source-semantic)
-)
-(add-hook 'c-mode-common-hook 'my:add-semantic-to-autocomplete)
 
+;; Completion, company
+(add-hook 'after-init-hook 'global-company-mode)
+; (add-to-list 'company-backends 'company-c-headers)
+
+
+(eval-after-load 'company
+      '(add-to-list 'company-backends 'company-irony))
+(add-hook 'irony-mode-hook 'company-irony-setup-begin-commands)
+
+;; EDE
 (global-ede-mode 1)
-; Automatic reparsing of open buffers
+
+;; Automatic reparsing of open buffers
 (global-semantic-idle-scheduler-mode 1)
+
+;; 
+(autoload 'php-mode "php-mode.el" "Php mode." t)
+(setq auto-mode-alist (append '(("/*.\.php[345]?$" . php-mode)) auto-mode-alist))
+
+;;
+(autoload 'python-mode "python-mode.el" "Python mode." t)
+(setq auto-mode-alist (append '(("/.*\.py\'" . python-mode)) auto-mode-alist))
+
 
 ;=================================================================
 (custom-set-variables
@@ -44,9 +43,13 @@
  '(cua-mode t nil (cua-base))
  '(custom-enabled-themes (quote (wombat)))
  '(font-use-system-font t)
+ '(global-hl-line-mode nil)
+ '(global-linum-mode t)
+ '(indent-tabs-mode nil)
  '(inhibit-startup-screen t)
  '(save-place t nil (saveplace))
- '(show-paren-mode t))
+ '(show-paren-mode t)
+ '(tab-always-indent (quote complete)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
