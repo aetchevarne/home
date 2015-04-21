@@ -33,7 +33,7 @@ filetype plugin on
 syntax on
 
 set nu
-
+set hlsearch 
 set laststatus=2
 
 " Recomendado por vim
