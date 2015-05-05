@@ -3,6 +3,13 @@
 (add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/"))
 (package-initialize)
 
+
+(setq linum-format "%3d\u2502 ")
+
+
+(xterm-mouse-mode 1)
+
+
 ;; Yasnippet
 (require 'yasnippet)
 (yas-global-mode 1)
