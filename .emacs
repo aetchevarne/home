@@ -3,12 +3,11 @@
 (add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/"))
 (package-initialize)
 
-
+;; Formato para números de línea
 (setq linum-format "%3d\u2502 ")
 
-
+;; Soportar mouse en xterm
 (xterm-mouse-mode 1)
-
 
 ;; Yasnippet
 (require 'yasnippet)
