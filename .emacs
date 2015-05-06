@@ -13,17 +13,30 @@
 (require 'yasnippet)
 (yas-global-mode 1)
 
+;; Flycheck
+(add-hook 'after-init-hook #'global-flycheck-mode)
+
 ;; CEDET - semantic
 (semantic-mode 1)
 
 ;; Completion, company
 (add-hook 'after-init-hook 'global-company-mode)
-; (add-to-list 'company-backends 'company-c-headers)
+;(add-to-list 'company-backends 'company-c-headers)
 
-
+; Backend for irony
 (eval-after-load 'company
       '(add-to-list 'company-backends 'company-irony))
 (add-hook 'irony-mode-hook 'company-irony-setup-begin-commands)
+
+;; Integración de irony con flycheck
+(eval-after-load 'flycheck
+  '(add-hook 'flycheck-mode-hook #'flycheck-irony-setup))
+
+
+;; Irony 
+(add-hook 'c++-mode-hook 'irony-mode)
+(add-hook 'c-mode-hook 'irony-mode)
+(add-hook 'objc-mode-hook 'irony-mode)
 
 ;; EDE
 (global-ede-mode 1)
