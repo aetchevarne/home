@@ -18,10 +18,22 @@
 
 ;; CEDET - semantic
 (semantic-mode 1)
+; Automatic reparsing of open buffers
+(global-semantic-idle-scheduler-mode 1)
+
+;; EDE
+(global-ede-mode 1)
+
+;; clang-format
+(require 'clang-format)
+(global-set-key [C-M-tab] 'clang-format-region)
 
 ;; Completion, company
 (add-hook 'after-init-hook 'global-company-mode)
-;(add-to-list 'company-backends 'company-c-headers)
+
+;; Company c-headers
+(eval-after-load 'company
+  '(add-to-list 'company-backends 'company-c-headers))
 
 ; Backend for irony
 (eval-after-load 'company
@@ -32,17 +44,19 @@
 (eval-after-load 'flycheck
   '(add-hook 'flycheck-mode-hook #'flycheck-irony-setup))
 
-
 ;; Irony 
 (add-hook 'c++-mode-hook 'irony-mode)
 (add-hook 'c-mode-hook 'irony-mode)
 (add-hook 'objc-mode-hook 'irony-mode)
 
-;; EDE
-(global-ede-mode 1)
+;; Cmake-project-mode
+(require 'cmake-project)
+; Usar automáticamente cmake-project-mode si hay un CMakeLists.txt
+(defun maybe-cmake-project-hook ()
+  (if (file-exists-p "CMakeLists.txt") (cmake-project-mode)))
+(add-hook 'c-mode-hook 'maybe-cmake-project-hook)
+(add-hook 'c++-mode-hook 'maybe-cmake-project-hook)
 
-;; Automatic reparsing of open buffers
-(global-semantic-idle-scheduler-mode 1)
 
 ;; 
 (autoload 'php-mode "php-mode.el" "Php mode." t)
@@ -52,6 +66,12 @@
 (autoload 'python-mode "python-mode.el" "Python mode." t)
 (setq auto-mode-alist (append '(("/.*\.py\'" . python-mode)) auto-mode-alist))
 
+
+;; My shortcuts
+(global-set-key [f8] 'compile)
+(global-set-key [(control d)] 'comment-region)
+; no funciona en terminal 
+(global-set-key [(control D)] 'uncomment-region)
 
 ;=================================================================
 (custom-set-variables
@@ -68,6 +88,8 @@
  '(custom-safe-themes
    (quote
     ("282606e51ef2811142af5068bd6694b7cf643b27d63666868bc97d04422318c1" "8db4b03b9ae654d4a57804286eb3e332725c84d7cdab38463cb6b97d5762ad26" default)))
+ '(ede-project-directories (quote ("/home/saknussemm/projects/backend")))
+ '(electric-pair-mode t)
  '(font-use-system-font t)
  '(global-hl-line-mode nil)
  '(global-linum-mode t)
