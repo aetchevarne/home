@@ -4,7 +4,7 @@
 (package-initialize)
 
 ;; Formato para números de línea
-(setq linum-format "%3d\u2502 ")
+(setq linum-format "%4d\u2502 ")
 
 ;; Soportar mouse en xterm
 (xterm-mouse-mode 1)
@@ -20,6 +20,7 @@
 (semantic-mode 1)
 ; Automatic reparsing of open buffers
 (global-semantic-idle-scheduler-mode 1)
+(global-semantic-idle-summary-mode 1)
 
 ;; EDE
 (global-ede-mode 1)
@@ -48,6 +49,16 @@
 (add-hook 'c++-mode-hook 'irony-mode)
 (add-hook 'c-mode-hook 'irony-mode)
 (add-hook 'objc-mode-hook 'irony-mode)
+;; (defun my-irony-mode-hook ()
+;;   (define-key irony-mode-map [remap completion-at-point]
+;;     'irony-completion-at-point-async)
+;;   (define-key irony-mode-map [remap complete-symbol]
+;;     'irony-completion-at-point-async))
+;; (add-hook 'irony-mode-hook 'my-irony-mode-hook)
+(add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options)
+
+;; Irony-eldoc
+(add-hook 'irony-mode-hook 'irony-eldoc)
 
 ;; Cmake-project-mode
 (require 'cmake-project)
@@ -57,15 +68,26 @@
 (add-hook 'c-mode-hook 'maybe-cmake-project-hook)
 (add-hook 'c++-mode-hook 'maybe-cmake-project-hook)
 
-
-;; 
+;; PHP mode
 (autoload 'php-mode "php-mode.el" "Php mode." t)
 (setq auto-mode-alist (append '(("/*.\.php[345]?$" . php-mode)) auto-mode-alist))
 
-;;
+;; Python mode
 (autoload 'python-mode "python-mode.el" "Python mode." t)
 (setq auto-mode-alist (append '(("/.*\.py\'" . python-mode)) auto-mode-alist))
 
+;; IDO mode
+(setq ido-enable-flex-matching 1)
+(setq ido-everywhere t)
+(ido-mode 1)
+
+;; git-gutter (marca diferencias en la línea)
+(global-git-gutter-mode 1)
+(git-gutter:linum-setup)
+(custom-set-variables '(git-gutter:update-interval 2))
+
+;; Indentar cuando presione enter
+;(define-key global-map (kbd "RET") 'newline-and-indent)
 
 ;; My shortcuts
 (global-set-key [f8] 'compile)
@@ -83,11 +105,12 @@
    [default default default italic underline success warning error])
  '(ansi-color-names-vector
    ["#212526" "#ff4b4b" "#b4fa70" "#fce94f" "#729fcf" "#e090d7" "#8cc4ff" "#eeeeec"])
+ '(cmake-project-default-build-dir-name "build/")
  '(cua-mode t nil (cua-base))
  '(custom-enabled-themes (quote (zenburn)))
  '(custom-safe-themes
    (quote
-    ("282606e51ef2811142af5068bd6694b7cf643b27d63666868bc97d04422318c1" "8db4b03b9ae654d4a57804286eb3e332725c84d7cdab38463cb6b97d5762ad26" default)))
+    ("da7fa7211dd96fcf77398451e3f43052558f01b20eb8bee9ac0fd88627e11e22" "282606e51ef2811142af5068bd6694b7cf643b27d63666868bc97d04422318c1" "8db4b03b9ae654d4a57804286eb3e332725c84d7cdab38463cb6b97d5762ad26" default)))
  '(ede-project-directories (quote ("/home/saknussemm/projects/backend")))
  '(electric-pair-mode t)
  '(font-use-system-font t)
