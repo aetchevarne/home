@@ -50,6 +50,7 @@
 (global-set-key [C-M-tab] 'clang-format-region)
 
 ;; Completion, company
+(require 'company)
 (add-hook 'after-init-hook 'global-company-mode)
 
 ;; Company c-headers
@@ -57,11 +58,13 @@
   '(add-to-list 'company-backends 'company-c-headers))
 
 ; Backend for irony
+(require 'irony)
 (eval-after-load 'company
       '(add-to-list 'company-backends 'company-irony))
 (add-hook 'irony-mode-hook 'company-irony-setup-begin-commands)
 
 ;; Integración de irony con flycheck
+(require 'flycheck)
 (eval-after-load 'flycheck
   '(add-hook 'flycheck-mode-hook #'flycheck-irony-setup))
 
@@ -89,6 +92,8 @@
 (add-hook 'c-mode-hook 'maybe-cmake-project-hook)
 (add-hook 'c++-mode-hook 'maybe-cmake-project-hook)
 
+(add-hook 'cmake-mode-hook 'cmake-project-mode)
+
 ;; PHP mode
 (autoload 'php-mode "php-mode.el" "Php mode." t)
 (setq auto-mode-alist (append '(("/*.\.php[345]?$" . php-mode)) auto-mode-alist))
@@ -98,11 +103,13 @@
 (setq auto-mode-alist (append '(("/.*\.py\'" . python-mode)) auto-mode-alist))
 
 ;; IDO mode
+(require 'ido)
 (setq ido-enable-flex-matching 1)
 (setq ido-everywhere t)
 (ido-mode 1)
 
 ;; git-gutter (marca diferencias en la línea)
+(require 'git-gutter)
 (global-git-gutter-mode 1)
 (git-gutter:linum-setup)
 
@@ -116,6 +123,7 @@
 (global-set-key [(control D)] 'uncomment-region)
 
 ;=================================================================
+
 
 
 (custom-set-variables
@@ -144,6 +152,7 @@
  '(save-place t nil (saveplace))
  '(show-paren-mode t)
  '(tab-always-indent (quote complete)))
+
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
