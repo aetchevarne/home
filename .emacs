@@ -9,7 +9,6 @@
 ;; Soportar mouse en xterm
 (xterm-mouse-mode 1)
 
-
 ;; Speedbar in the same frame
 (require 'sr-speedbar)
 (global-set-key (kbd "s-s") 'sr-speedbar-toggle)
@@ -25,7 +24,8 @@
 (semantic-mode 1)
 ; Automatic reparsing of open buffers
 (global-semantic-idle-scheduler-mode 1)
-(global-semantic-idle-summary-mode 1)
+; Pisa a irony-mode 
+;(global-semantic-idle-summary-mode 1)
 
 ;; EDE
 ; (global-ede-mode 1)
@@ -34,7 +34,10 @@
 (projectile-global-mode)
 (setq projectile-enable-caching t)
 
-; Integrate ecb - projectile
+;; Integrate ecb - projectile
+(defvar default-ecb-source-path (list '("~/Documents/workspace" "Workspace")
+                                      '("~/" "~/")
+                                       '("/" "/")))
 (add-hook 'ecb-basic-buffer-sync-hook
           (lambda ()
             (when (functionp 'projectile-get-project-directories)
@@ -143,6 +146,8 @@
  '(custom-safe-themes
    (quote
     ("6a9606327ecca6e772fba6ef46137d129e6d1888dcfc65d0b9b27a7a00a4af20" "da7fa7211dd96fcf77398451e3f43052558f01b20eb8bee9ac0fd88627e11e22" "282606e51ef2811142af5068bd6694b7cf643b27d63666868bc97d04422318c1" "8db4b03b9ae654d4a57804286eb3e332725c84d7cdab38463cb6b97d5762ad26" default)))
+ '(ecb-auto-activate t)
+ '(ecb-options-version "2.40")
  '(ede-project-directories (quote ("/home/saknussemm/projects/backend")))
  '(electric-pair-mode t)
  '(font-use-system-font t)
