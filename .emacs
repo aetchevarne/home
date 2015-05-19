@@ -116,6 +116,9 @@
 ;; Indentar cuando presione enter
 ;(define-key global-map (kbd "RET") 'newline-and-indent)
 
+;; Projectile mode (manejo de proyectos)
+(projectile-global-mode)
+
 ;; My shortcuts
 (global-set-key [f8] 'compile)
 (global-set-key [(control d)] 'comment-region)
@@ -123,7 +126,6 @@
 (global-set-key [(control D)] 'uncomment-region)
 
 ;=================================================================
-
 
 
 (custom-set-variables
