@@ -1,13 +1,19 @@
+;;; Emacs -- Init
+;;; Commentary:
+;;; Code:
 (require 'package)
 (add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/"))
 (add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/"))
 (package-initialize)
 
 ;; Formato para números de línea
+(require 'linum)
+(global-linum-mode t)
 (setq linum-format "%4d\u2502 ")
 
 ;; Soportar mouse en xterm
 (xterm-mouse-mode 1)
+
 
 ;; Speedbar in the same frame
 (require 'sr-speedbar)
@@ -24,11 +30,19 @@
 (semantic-mode 1)
 ; Automatic reparsing of open buffers
 (global-semantic-idle-scheduler-mode 1)
-; Pisa a irony-mode 
-;(global-semantic-idle-summary-mode 1)
+(global-semantic-idle-summary-mode 1)
 
 ;; EDE
 ; (global-ede-mode 1)
+
+;; ECB
+(require 'ecb)
+(global-set-key (kbd "C-e") 'ecb-activate)
+(setq ecb-show-sources-in-directories-buffer 'always)
+(setq ecb-auto-activate t)
+(setq ecb-layout-name "right2")
+(setq ecb-options-version "2.40")
+
 
 ;; Projectile
 (projectile-global-mode)
@@ -75,12 +89,12 @@
 (add-hook 'c++-mode-hook 'irony-mode)
 (add-hook 'c-mode-hook 'irony-mode)
 (add-hook 'objc-mode-hook 'irony-mode)
-;; (defun my-irony-mode-hook ()
-;;   (define-key irony-mode-map [remap completion-at-point]
-;;     'irony-completion-at-point-async)
-;;   (define-key irony-mode-map [remap complete-symbol]
-;;     'irony-completion-at-point-async))
-;; (add-hook 'irony-mode-hook 'my-irony-mode-hook)
+(defun my-irony-mode-hook ()
+  (define-key irony-mode-map [remap completion-at-point]
+    'irony-completion-at-point-async)
+  (define-key irony-mode-map [remap complete-symbol]
+    'irony-completion-at-point-async))
+(add-hook 'irony-mode-hook 'my-irony-mode-hook)
 (add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options)
 
 ;; Irony-eldoc
@@ -119,35 +133,44 @@
 ;; Indentar cuando presione enter
 ;(define-key global-map (kbd "RET") 'newline-and-indent)
 
-;; Projectile mode (manejo de proyectos)
-(projectile-global-mode)
-
 ;; My shortcuts
 (global-set-key [f8] 'compile)
 (global-set-key [(control d)] 'comment-region)
 ; no funciona en terminal 
 (global-set-key [(control D)] 'uncomment-region)
 
-;=================================================================
+(require 'magit)
+(setq magit-last-seen-setup-instructions "1.4.0")
 
+;=================================================================
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(Man-notify-method (quote aggressive))
  '(ansi-color-faces-vector
    [default default default italic underline success warning error])
  '(ansi-color-names-vector
    ["#212526" "#ff4b4b" "#b4fa70" "#fce94f" "#729fcf" "#e090d7" "#8cc4ff" "#eeeeec"])
  '(cmake-project-default-build-dir-name "build/")
  '(cua-mode t nil (cua-base))
- '(custom-enabled-themes (quote (zenburn)))
+ '(custom-enabled-themes (quote (wombat)))
  '(custom-safe-themes
    (quote
-    ("6a9606327ecca6e772fba6ef46137d129e6d1888dcfc65d0b9b27a7a00a4af20" "da7fa7211dd96fcf77398451e3f43052558f01b20eb8bee9ac0fd88627e11e22" "282606e51ef2811142af5068bd6694b7cf643b27d63666868bc97d04422318c1" "8db4b03b9ae654d4a57804286eb3e332725c84d7cdab38463cb6b97d5762ad26" default)))
+    ("8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" "6a9606327ecca6e772fba6ef46137d129e6d1888dcfc65d0b9b27a7a00a4af20" "da7fa7211dd96fcf77398451e3f43052558f01b20eb8bee9ac0fd88627e11e22" "282606e51ef2811142af5068bd6694b7cf643b27d63666868bc97d04422318c1" "8db4b03b9ae654d4a57804286eb3e332725c84d7cdab38463cb6b97d5762ad26" default)))
  '(ecb-auto-activate t)
+ '(ecb-layout-name "right2")
  '(ecb-options-version "2.40")
+ '(ecb-source-path
+   (quote
+    (("/home/saknussemm/Misc/home/" "/home/saknussemm/Misc/home/")
+     ("/home/saknussemm/projects/backend/" "/home/saknussemm/projects/backend/")
+     ("~/Documents/workspace" "Workspace")
+     ("~/" "~/")
+     ("/" "/"))))
+ '(ecb-tip-of-the-day nil)
  '(ede-project-directories (quote ("/home/saknussemm/projects/backend")))
  '(electric-pair-mode t)
  '(font-use-system-font t)
