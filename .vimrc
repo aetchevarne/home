@@ -47,7 +47,7 @@ set foldmethod=marker
 set background=dark
 
 " Si es xterm o screen, probablemente tenga 256 colores
-if (&term=="xterm" || &term=="screen") || (&term=="screen-bce" || &term=="fbterm")
+if (&term=="xterm" || &term=="screen") || (&term=="screen-bce" || &term=="fbterm" || &term=="xterm-256color" || &term=="screen-256color")
 	let g:zenburn_high_Contrast=1
 	set t_Co=256
 	colorscheme zenburn

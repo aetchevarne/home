@@ -26,11 +26,17 @@
 ;; Flycheck
 (add-hook 'after-init-hook #'global-flycheck-mode)
 
+;;
+(require 'powerline)
+(powerline-default-theme
+ )
 ;; CEDET - semantic
 (semantic-mode 1)
 ; Automatic reparsing of open buffers
 (global-semantic-idle-scheduler-mode 1)
-(global-semantic-idle-summary-mode 1)
+;(global-semantic-idle-summary-mode 1)
+(add-to-list 'semantic-default-submodes 'global-semanticdb-minor-mode)
+(add-to-list 'semantic-default-submodes 'gloabl-semantic-idle-local-symbol-highlight-mode)
 
 ;; EDE
 ; (global-ede-mode 1)
@@ -49,8 +55,7 @@
 (setq projectile-enable-caching t)
 
 ;; Integrate ecb - projectile
-(defvar default-ecb-source-path (list '("~/Documents/workspace" "Workspace")
-                                      '("~/" "~/")
+(defvar default-ecb-source-path (list  '("~/" "~/")
                                        '("/" "/")))
 (add-hook 'ecb-basic-buffer-sync-hook
           (lambda ()
@@ -111,6 +116,14 @@
 
 (add-hook 'cmake-mode-hook 'cmake-project-mode)
 
+;; Doxymacs
+(require 'doxymacs)
+(add-hook 'c-mode-common-hook 'doxymacs-mode)
+(defun my-doxymacs-font-lock-hook ()
+ (if (or (eq major-mode 'c-mode) (eq major-mode 'c++-mode))
+     (doxymacs-font-lock)))
+(add-hook 'font-lock-mode-hook 'my-doxymacs-font-lock-hook)
+
 ;; PHP mode
 (autoload 'php-mode "php-mode.el" "Php mode." t)
 (setq auto-mode-alist (append '(("/*.\.php[345]?$" . php-mode)) auto-mode-alist))
@@ -130,6 +143,9 @@
 (global-git-gutter-mode 1)
 (git-gutter:linum-setup)
 
+;; Gnus
+(setq gnus-select-method '(nntp "news.gmane.org"))
+
 ;; Indentar cuando presione enter
 ;(define-key global-map (kbd "RET") 'newline-and-indent)
 
@@ -139,6 +155,13 @@
 ; no funciona en terminal 
 (global-set-key [(control D)] 'uncomment-region)
 
+;; EMMS
+(require 'emms)
+(emms-standard)
+(emms-default-players)
+(setq emms-source-file-default-directory "/home/saknussemm/Misc/musica")
+
+;;
 (require 'magit)
 (setq magit-last-seen-setup-instructions "1.4.0")
 
@@ -159,17 +182,11 @@
  '(custom-enabled-themes (quote (wombat)))
  '(custom-safe-themes
    (quote
-    ("8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" "6a9606327ecca6e772fba6ef46137d129e6d1888dcfc65d0b9b27a7a00a4af20" "da7fa7211dd96fcf77398451e3f43052558f01b20eb8bee9ac0fd88627e11e22" "282606e51ef2811142af5068bd6694b7cf643b27d63666868bc97d04422318c1" "8db4b03b9ae654d4a57804286eb3e332725c84d7cdab38463cb6b97d5762ad26" default)))
+    ("108b3724e0d684027c713703f663358779cc6544075bc8fd16ae71470497304f" "8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" "6a9606327ecca6e772fba6ef46137d129e6d1888dcfc65d0b9b27a7a00a4af20" "da7fa7211dd96fcf77398451e3f43052558f01b20eb8bee9ac0fd88627e11e22" "282606e51ef2811142af5068bd6694b7cf643b27d63666868bc97d04422318c1" "8db4b03b9ae654d4a57804286eb3e332725c84d7cdab38463cb6b97d5762ad26" default)))
+ '(doxymacs-doxygen-style "C++!")
  '(ecb-auto-activate t)
  '(ecb-layout-name "right2")
  '(ecb-options-version "2.40")
- '(ecb-source-path
-   (quote
-    (("/home/saknussemm/Misc/home/" "/home/saknussemm/Misc/home/")
-     ("/home/saknussemm/projects/backend/" "/home/saknussemm/projects/backend/")
-     ("~/Documents/workspace" "Workspace")
-     ("~/" "~/")
-     ("/" "/"))))
  '(ecb-tip-of-the-day nil)
  '(ede-project-directories (quote ("/home/saknussemm/projects/backend")))
  '(electric-pair-mode t)
