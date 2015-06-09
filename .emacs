@@ -28,15 +28,20 @@
 
 ;;
 (require 'powerline)
-(powerline-default-theme
- )
+(powerline-default-theme )
+
+;; Treat .h files as c++ files
+(add-to-list 'auto-mode-alist '("\\.h\\'" . c++-mode))
+
 ;; CEDET - semantic
+(require 'semantic)
+(require 'semantic/bovine/gcc)
 (semantic-mode 1)
 ; Automatic reparsing of open buffers
 (global-semantic-idle-scheduler-mode 1)
 ;(global-semantic-idle-summary-mode 1)
 (add-to-list 'semantic-default-submodes 'global-semanticdb-minor-mode)
-(add-to-list 'semantic-default-submodes 'gloabl-semantic-idle-local-symbol-highlight-mode)
+(global-semantic-idle-local-symbol-highlight-mode 1)
 
 ;; EDE
 ; (global-ede-mode 1)
@@ -182,7 +187,7 @@
  '(custom-enabled-themes (quote (wombat)))
  '(custom-safe-themes
    (quote
-    ("108b3724e0d684027c713703f663358779cc6544075bc8fd16ae71470497304f" "8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" "6a9606327ecca6e772fba6ef46137d129e6d1888dcfc65d0b9b27a7a00a4af20" "da7fa7211dd96fcf77398451e3f43052558f01b20eb8bee9ac0fd88627e11e22" "282606e51ef2811142af5068bd6694b7cf643b27d63666868bc97d04422318c1" "8db4b03b9ae654d4a57804286eb3e332725c84d7cdab38463cb6b97d5762ad26" default)))
+    ("d677ef584c6dfc0697901a44b885cc18e206f05114c8a3b7fde674fce6180879" "108b3724e0d684027c713703f663358779cc6544075bc8fd16ae71470497304f" "8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" "6a9606327ecca6e772fba6ef46137d129e6d1888dcfc65d0b9b27a7a00a4af20" "da7fa7211dd96fcf77398451e3f43052558f01b20eb8bee9ac0fd88627e11e22" "282606e51ef2811142af5068bd6694b7cf643b27d63666868bc97d04422318c1" "8db4b03b9ae654d4a57804286eb3e332725c84d7cdab38463cb6b97d5762ad26" default)))
  '(doxymacs-doxygen-style "C++!")
  '(ecb-auto-activate t)
  '(ecb-layout-name "right2")
@@ -190,12 +195,17 @@
  '(ecb-tip-of-the-day nil)
  '(ede-project-directories (quote ("/home/saknussemm/projects/backend")))
  '(electric-pair-mode t)
+ '(fci-dash-pattern 0.05)
+ '(fci-rule-character-color "black")
+ '(fci-rule-color "gray21")
+ '(fci-rule-use-dashes t)
  '(font-use-system-font t)
  '(git-gutter:update-interval 2)
  '(global-hl-line-mode nil)
  '(global-linum-mode t)
  '(indent-tabs-mode nil)
  '(inhibit-startup-screen t)
+ '(paradox-github-token t)
  '(save-place t nil (saveplace))
  '(show-paren-mode t)
  '(tab-always-indent (quote complete)))
