@@ -83,6 +83,9 @@
 ;; Company c-headers
 (eval-after-load 'company
   '(add-to-list 'company-backends 'company-c-headers))
+; Company quickhelp
+(require 'company-quickhelp)
+(company-quickhelp-mode 1)
 
 ; Backend for irony
 (require 'irony)
@@ -94,6 +97,10 @@
 (require 'flycheck)
 (eval-after-load 'flycheck
   '(add-hook 'flycheck-mode-hook #'flycheck-irony-setup))
+
+;;
+(require 'flycheck-tip)
+(flycheck-tip-use-timer 'verbose)
 
 ;; Irony 
 (add-hook 'c++-mode-hook 'irony-mode)
@@ -159,6 +166,7 @@
 (global-set-key [(control d)] 'comment-region)
 ; no funciona en terminal 
 (global-set-key [(control D)] 'uncomment-region)
+(global-set-key [(control e)] 'ecb-toggle-ecb-windows)
 
 ;; EMMS
 (require 'emms)
