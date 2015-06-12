@@ -14,14 +14,38 @@
 ;; Soportar mouse en xterm
 (xterm-mouse-mode 1)
 
+;; From https://snarfed.org/gnu_emacs_backup_files
+;; Put autosave files (ie #foo#) and backup files (ie foo~) in ~/.emacs.d/.
+;; create the autosave dir if necessary, since emacs won't.
+(make-directory "~/.emacs.d/autosaves/" t)
+
+
+;; ;; IDO mode
+;; (require 'ido)
+;; (setq ido-enable-flex-matching 1)
+;; (setq ido-everywhere t)
+;; (ido-mode 1)
+
+;; Helm
+(require 'helm-config)
+(setq helm-split-window-in-side-p          t ; open Helm buffer inside current window
+      helm-move-to-line-cycle-in-source    t
+      helm-autoresize-mode                 t
+      )
+
+(helm-mode t)
 
 ;; Speedbar in the same frame
-(require 'sr-speedbar)
-(global-set-key (kbd "s-s") 'sr-speedbar-toggle)
+;; (require 'sr-speedbar)
+;; (global-set-key (kbd "s-s") 'sr-speedbar-toggle)
 
 ;; Yasnippet
 (require 'yasnippet)
 (yas-global-mode 1)
+
+;; Color para los identificadores
+(require 'rainbow-identifiers)
+(add-hook 'prog-mode-hook 'rainbow-identifiers-mode)
 
 ;; Flycheck
 (add-hook 'after-init-hook #'global-flycheck-mode)
@@ -83,24 +107,12 @@
 ;; Company c-headers
 (eval-after-load 'company
   '(add-to-list 'company-backends 'company-c-headers))
-; Company quickhelp
-(require 'company-quickhelp)
-(company-quickhelp-mode 1)
 
 ; Backend for irony
 (require 'irony)
 (eval-after-load 'company
       '(add-to-list 'company-backends 'company-irony))
 (add-hook 'irony-mode-hook 'company-irony-setup-begin-commands)
-
-;; Integración de irony con flycheck
-(require 'flycheck)
-(eval-after-load 'flycheck
-  '(add-hook 'flycheck-mode-hook #'flycheck-irony-setup))
-
-;;
-(require 'flycheck-tip)
-(flycheck-tip-use-timer 'verbose)
 
 ;; Irony 
 (add-hook 'c++-mode-hook 'irony-mode)
@@ -116,6 +128,15 @@
 
 ;; Irony-eldoc
 (add-hook 'irony-mode-hook 'irony-eldoc)
+
+;; Integración de irony con flycheck
+(require 'flycheck)
+(eval-after-load 'flycheck
+  '(add-hook 'flycheck-mode-hook #'flycheck-irony-setup))
+
+;;
+(require 'flycheck-tip)
+(flycheck-tip-use-timer 'verbose)
 
 ;; Cmake-project-mode
 (require 'cmake-project)
@@ -144,12 +165,6 @@
 (autoload 'python-mode "python-mode.el" "Python mode." t)
 (setq auto-mode-alist (append '(("/.*\.py\'" . python-mode)) auto-mode-alist))
 
-;; IDO mode
-(require 'ido)
-(setq ido-enable-flex-matching 1)
-(setq ido-everywhere t)
-(ido-mode 1)
-
 ;; git-gutter (marca diferencias en la línea)
 (require 'git-gutter)
 (global-git-gutter-mode 1)
@@ -169,17 +184,16 @@
 (global-set-key [(control e)] 'ecb-toggle-ecb-windows)
 
 ;; EMMS
-(require 'emms)
-(emms-standard)
-(emms-default-players)
-(setq emms-source-file-default-directory "/home/saknussemm/Misc/musica")
+;; (require 'emms)
+;; (emms-standard)
+;; (emms-default-players)
+;; (setq emms-source-file-default-directory "/home/saknussemm/Misc/musica")
 
 ;;
 (require 'magit)
 (setq magit-last-seen-setup-instructions "1.4.0")
 
 ;=================================================================
-
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -190,12 +204,14 @@
    [default default default italic underline success warning error])
  '(ansi-color-names-vector
    ["#212526" "#ff4b4b" "#b4fa70" "#fce94f" "#729fcf" "#e090d7" "#8cc4ff" "#eeeeec"])
+ '(auto-save-file-name-transforms (quote ((".*" "~/.emacs.d/autosaves/\\1" t))))
+ '(backup-directory-alist (quote ((".*" . "~/.emacs.d/backups/"))))
  '(cmake-project-default-build-dir-name "build/")
  '(cua-mode t nil (cua-base))
  '(custom-enabled-themes (quote (wombat)))
  '(custom-safe-themes
    (quote
-    ("d677ef584c6dfc0697901a44b885cc18e206f05114c8a3b7fde674fce6180879" "108b3724e0d684027c713703f663358779cc6544075bc8fd16ae71470497304f" "8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" "6a9606327ecca6e772fba6ef46137d129e6d1888dcfc65d0b9b27a7a00a4af20" "da7fa7211dd96fcf77398451e3f43052558f01b20eb8bee9ac0fd88627e11e22" "282606e51ef2811142af5068bd6694b7cf643b27d63666868bc97d04422318c1" "8db4b03b9ae654d4a57804286eb3e332725c84d7cdab38463cb6b97d5762ad26" default)))
+    ("3dafeadb813a33031848dfebfa0928e37e7a3c18efefa10f3e9f48d1993598d3" "d677ef584c6dfc0697901a44b885cc18e206f05114c8a3b7fde674fce6180879" "108b3724e0d684027c713703f663358779cc6544075bc8fd16ae71470497304f" "8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" "6a9606327ecca6e772fba6ef46137d129e6d1888dcfc65d0b9b27a7a00a4af20" "da7fa7211dd96fcf77398451e3f43052558f01b20eb8bee9ac0fd88627e11e22" "282606e51ef2811142af5068bd6694b7cf643b27d63666868bc97d04422318c1" "8db4b03b9ae654d4a57804286eb3e332725c84d7cdab38463cb6b97d5762ad26" default)))
  '(doxymacs-doxygen-style "C++!")
  '(ecb-auto-activate t)
  '(ecb-layout-name "right2")
@@ -217,6 +233,8 @@
  '(save-place t nil (saveplace))
  '(show-paren-mode t)
  '(tab-always-indent (quote complete)))
+
+
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
