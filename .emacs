@@ -48,7 +48,8 @@
 (add-hook 'prog-mode-hook 'rainbow-identifiers-mode)
 
 ;; Flycheck
-(add-hook 'after-init-hook #'global-flycheck-mode)
+(require 'flycheck)
+;; (add-hook 'after-init-hook #'global-flycheck-mode)
 
 ;;
 (require 'powerline)
@@ -56,6 +57,11 @@
 
 ;; Treat .h files as c++ files
 (add-to-list 'auto-mode-alist '("\\.h\\'" . c++-mode))
+
+;; C style
+(setq c-default-style "k&r"
+      c-basic-offset 4)
+
 
 ;; CEDET - semantic
 (require 'semantic)
@@ -189,6 +195,10 @@
 ;; (emms-default-players)
 ;; (setq emms-source-file-default-directory "/home/saknussemm/Misc/musica")
 
+;; Compilation window
+(setq compilation-scroll-output t)
+(setq ecb-compile-window-height-lines 10)
+(setq ecb-compile-window-temporally-enlarge 'after-selection)
 ;;
 (require 'magit)
 (setq magit-last-seen-setup-instructions "1.4.0")
