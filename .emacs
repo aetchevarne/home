@@ -203,6 +203,12 @@
 (require 'magit)
 (setq magit-last-seen-setup-instructions "1.4.0")
 
+;; Theme
+(require 'moe-theme)
+(moe-dark)
+(moe-theme-set-color 'w/b)
+(powerline-moe-theme)
+
 ;=================================================================
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -219,13 +225,16 @@
  '(cmake-project-default-build-dir-name "build/")
  '(cua-mode t nil (cua-base))
  '(custom-enabled-themes (quote (wombat)))
- '(custom-safe-themes
-   (quote
-    ("3dafeadb813a33031848dfebfa0928e37e7a3c18efefa10f3e9f48d1993598d3" "d677ef584c6dfc0697901a44b885cc18e206f05114c8a3b7fde674fce6180879" "108b3724e0d684027c713703f663358779cc6544075bc8fd16ae71470497304f" "8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" "6a9606327ecca6e772fba6ef46137d129e6d1888dcfc65d0b9b27a7a00a4af20" "da7fa7211dd96fcf77398451e3f43052558f01b20eb8bee9ac0fd88627e11e22" "282606e51ef2811142af5068bd6694b7cf643b27d63666868bc97d04422318c1" "8db4b03b9ae654d4a57804286eb3e332725c84d7cdab38463cb6b97d5762ad26" default)))
  '(doxymacs-doxygen-style "C++!")
  '(ecb-auto-activate t)
+ '(ecb-compile-window-height 6)
  '(ecb-layout-name "right2")
  '(ecb-options-version "2.40")
+ '(ecb-source-path
+   (quote
+    (("/home/saknussemm/Misc/home/" "/home/saknussemm/Misc/home/")
+     ("~/" "~/")
+     ("/" "/"))))
  '(ecb-tip-of-the-day nil)
  '(ede-project-directories (quote ("/home/saknussemm/projects/backend")))
  '(electric-pair-mode t)
@@ -237,6 +246,8 @@
  '(git-gutter:update-interval 2)
  '(global-hl-line-mode nil)
  '(global-linum-mode t)
+ '(global-semantic-decoration-mode nil)
+ '(global-semantic-idle-summary-mode t)
  '(indent-tabs-mode nil)
  '(inhibit-startup-screen t)
  '(paradox-github-token t)
@@ -246,9 +257,3 @@
 
 
 
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(default ((t (:family "DejaVu Sans Mono" :foundry "unknown" :slant normal :weight normal :height 90 :width normal)))))
