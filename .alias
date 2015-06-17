@@ -8,7 +8,18 @@ alias startx='exec /usr/bin/startx'
 alias ack='/usr/bin/vendor_perl/ack'
 alias vdiff='svn diff | vim -R -'
 alias tmux='/usr/bin/tmux -2'
-alias temacs='env TERM=screen-256color emacs -nw'
+
+# alias temacs='env TERM=screen-256color emacs -nw'
+
+temacs() {
+    if [ "$TERM" = "xterm" ]; then
+       TERM=xterm-256color emacs -nw $@
+    fi
+
+    if [ "$TERM" = "screen" ]; then
+       TERM=screen-256color emacs -nw $@
+    fi
+}
 
 files() {
 	lsof -nP -p $(pidof $1)
