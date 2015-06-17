@@ -139,6 +139,7 @@
 (require 'flycheck)
 (eval-after-load 'flycheck
   '(add-hook 'flycheck-mode-hook #'flycheck-irony-setup))
+(global-flycheck-mode t)
 
 ;;
 (require 'flycheck-tip)
@@ -209,6 +210,12 @@
 (moe-dark)
 (moe-theme-set-color 'w/b)
 (powerline-moe-theme)
+
+;;
+(setq frame-title-format
+      '((:eval (if (buffer-file-name)
+                   (abbreviate-file-name (buffer-file-name))
+                 %b))))
 
 ;=================================================================
 (custom-set-variables
