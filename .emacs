@@ -20,7 +20,7 @@
 (make-directory "~/.emacs.d/autosaves/" t)
 
 
-;; ;; IDO mode
+;; ;; IDO mode.
 ;; (require 'ido)
 ;; (setq ido-enable-flex-matching 1)
 ;; (setq ido-everywhere t)
@@ -53,7 +53,8 @@
 
 ;;
 (require 'powerline)
-(powerline-default-theme )
+; Replaced by powerline-moe-theme
+;(powerline-default-theme )
 
 ;; Treat .h files as c++ files
 (add-to-list 'auto-mode-alist '("\\.h\\'" . c++-mode))
@@ -62,14 +63,13 @@
 (setq c-default-style "k&r"
       c-basic-offset 4)
 
-
 ;; CEDET - semantic
 (require 'semantic)
 (require 'semantic/bovine/gcc)
 (semantic-mode 1)
 ; Automatic reparsing of open buffers
 (global-semantic-idle-scheduler-mode 1)
-;(global-semantic-idle-summary-mode 1)
+(global-semantic-idle-summary-mode 0)
 (add-to-list 'semantic-default-submodes 'global-semanticdb-minor-mode)
 (global-semantic-idle-local-symbol-highlight-mode 1)
 
@@ -146,12 +146,12 @@
 
 ;; Cmake-project-mode
 (require 'cmake-project)
+; Usar cmake-project-mode en cmakelists.txt
 (add-hook 'cmake-mode-hook 'cmake-project-mode)
-; Usar automáticamente cmake-project-mode si hay un CMakeLists.txt
+; Usar automáticamente cmake-project-mode si hay un CMakeLists.txt en este directorio
 (defun maybe-cmake-project-hook ()
   (if (file-exists-p "CMakeLists.txt") (cmake-project-mode)))
-(add-hook 'c-mode-hook 'maybe-cmake-project-hook)
-(add-hook 'c++-mode-hook 'maybe-cmake-project-hook)
+(add-hook 'prog-mode-hook 'maybe-cmake-project-hook)
 
 (add-hook 'cmake-mode-hook 'cmake-project-mode)
 
@@ -175,6 +175,7 @@
 (require 'git-gutter)
 (global-git-gutter-mode 1)
 (git-gutter:linum-setup)
+(setq git-gutter:update-interval 2)
 
 ;; Gnus
 (setq gnus-select-method '(nntp "news.gmane.org"))
@@ -224,7 +225,7 @@
  '(backup-directory-alist (quote ((".*" . "~/.emacs.d/backups/"))))
  '(cmake-project-default-build-dir-name "build/")
  '(cua-mode t nil (cua-base))
- '(custom-enabled-themes (quote (wombat)))
+ '(custom-enabled-themes (quote (moe-dark)))
  '(doxymacs-doxygen-style "C++!")
  '(ecb-auto-activate t)
  '(ecb-compile-window-height 6)
@@ -242,12 +243,9 @@
  '(fci-rule-character-color "black")
  '(fci-rule-color "gray21")
  '(fci-rule-use-dashes t)
- '(font-use-system-font t)
- '(git-gutter:update-interval 2)
  '(global-hl-line-mode nil)
  '(global-linum-mode t)
  '(global-semantic-decoration-mode nil)
- '(global-semantic-idle-summary-mode t)
  '(indent-tabs-mode nil)
  '(inhibit-startup-screen t)
  '(paradox-github-token t)
@@ -257,3 +255,9 @@
 
 
 
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(default ((t (:family "DejaVu Sans Mono" :foundry "unknown" :slant normal :weight normal :height 90 :width normal)))))
