@@ -217,6 +217,21 @@
                    (abbreviate-file-name (buffer-file-name))
                  %b))))
 
+;; Tramp
+(setq tramp-default-method "ssh")
+
+;;
+;; (require 'sublimity)
+;; (require 'sublimity-scroll)
+;; (require 'sublimity-map)
+;; (sublimity-global-mode 1)
+
+
+;; Company-web
+(add-to-list 'company-backends 'company-web-html)
+(add-to-list 'company-backends 'company-web-jade)
+(add-to-list 'company-backends 'company-web-slim)
+
 ;=================================================================
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
