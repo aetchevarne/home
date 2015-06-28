@@ -13,7 +13,14 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Formato para números de línea
 (require 'linum)
-(global-linum-mode t)
+(defun my-activate-linum ()
+  (linum-mode t))
+
+(add-hook 'text-mode-hook 'my-activate-linum)
+(add-hook 'prog-mode-hook 'my-activate-linum)
+(add-hook 'cmake-mode-hook 'my-activate-linum)
+
+;(global-linum-mode t)
 (setq linum-format "%4d\u2502 ")
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -101,7 +108,6 @@
 ; (setq ecb-auto-activate t)
 (setq ecb-layout-name "right2")
 (setq ecb-options-version "2.40")
-(add-hook 'prog-mode-hook 'ecb-activate)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Projectile
@@ -178,11 +184,12 @@
 (add-hook 'cmake-mode-hook 'cmake-project-mode)
 ; Usar automáticamente cmake-project-mode si hay un CMakeLists.txt en este directorio
 (defun maybe-cmake-project-hook ()
-  (if (file-exists-p "CMakeLists.txt") (cmake-project-mode)))
+  (if (file-exists-p "CMakeLists.txt")
+        (cmake-project-mode)
+    ))
+
 (add-hook 'prog-mode-hook 'maybe-cmake-project-hook)
-
 (add-hook 'cmake-mode-hook 'cmake-project-mode)
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Doxymacs
 (require 'doxymacs)
@@ -229,7 +236,7 @@
 
       gnus-boring-article-headers '(empty followup-to newsgroups many-to reply-to)
       gnus-treat-hide-boring-headers 'head ; -Hide boring headers
-                                        ;gnus-fetch-old-headers 'some        ; prevent teared threads by loading older but read postings
+      ;gnus-fetch-old-headers 'some        ; prevent teared threads by loading older but read postings
       gnus-fetch-old-headers 250       ; this should achieve the same result, without the excessive waiting for some groups...
 
                                        ; better summary line in the group overview
@@ -265,7 +272,7 @@
 (gnus-add-configuration  ; post new stuff
  '(edit-form
    (horizontal 1.0
-               (vertical 0.45 (group 0.25) (edit-form 1.0 point) ("*BBDB*" 0.15))
+               (vertical 0.45 (group 0.25) (edit-form 1.0 point) ("*BBDB*" 0.15))\\\\
                (vertical 1.0 (article 1.0)))))
 (gnus-add-configuration  ; score editing
  '(edit-score
@@ -288,7 +295,7 @@
 (global-set-key [(control d)] 'comment-region)
 ; no funciona en terminal 
 (global-set-key [(control D)] 'uncomment-region)
-(global-set-key [(control e)] 'ecb-toggle-ecb-windows)
+; (global-set-key [(control e)] 'ecb-toggle-ecb-windows)
 (global-set-key [(shift f3)] 'helm-projectile-ag)
 (global-set-key [f3] 'helm-ag)
 
@@ -314,7 +321,7 @@
 ;; Theme
 (require 'moe-theme)
 (moe-dark)
-(moe-theme-set-color 'w/b)
+(moe-theme-set-color 'green)
 (powerline-moe-theme)
 
 ;;
@@ -375,7 +382,6 @@
  '(fci-rule-use-dashes t)
  '(font-use-system-font t)
  '(global-hl-line-mode nil)
- '(global-linum-mode t)
  '(global-semantic-decoration-mode nil)
  '(indent-tabs-mode nil)
  '(inhibit-startup-screen t)
