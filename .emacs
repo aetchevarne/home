@@ -216,6 +216,10 @@
 (git-gutter:linum-setup)
 (setq git-gutter:update-interval 2)
 
+;; Mover entre ventanas
+(require 'windmove)
+(windmove-default-keybindings 'meta)
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Gnus
 ;; parts from https://github.com/dertuxmalwieder/My-Emacs-config/blob/master/.gnus.el
