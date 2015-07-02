@@ -23,6 +23,10 @@
 ;(global-linum-mode t)
 (setq linum-format "%4d\u2502 ")
 
+;; Whitespace cleaner
+(require 'ws-butler)
+(add-hook 'prog-mode-hook 'ws-butler-mode)
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Soportar mouse en xterm
 (xterm-mouse-mode 1)
@@ -252,7 +256,7 @@
       gnus-boring-article-headers '(empty followup-to newsgroups many-to reply-to)
       gnus-treat-hide-boring-headers 'head ; -Hide boring headers
       ;gnus-fetch-old-headers 'some        ; prevent teared threads by loading older but read postings
-      gnus-fetch-old-headers 250       ; this should achieve the same result, without the excessive waiting for some groups...
+      gnus-fetch-old-headers 250       ; this should achieve the same result, without the excessive waiting for some groups
 
                                        ; better summary line in the group overview
                                         ; inspired by http://eschulte.github.io/emacs-starter-kit/starter-kit-gnus.html
