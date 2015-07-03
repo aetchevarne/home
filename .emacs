@@ -361,7 +361,7 @@
 (global-set-key [(control D)] 'uncomment-region)
 ; (global-set-key [(control e)] 'ecb-toggle-ecb-windows)
 (global-set-key [(shift f3)] 'helm-projectile-ag)
-(global-set-key [f3] 'helm-ag)
+(global-set-key [f3] 'helm-occur-from-isearch)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; EMMS
@@ -392,7 +392,7 @@
 (setq frame-title-format
       '((:eval (if (buffer-file-name)
                    (abbreviate-file-name (buffer-file-name))
-                 %b))))
+                 "%b"))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Tramp
