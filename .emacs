@@ -14,6 +14,12 @@
 ;; Cua mode
 (cua-mode t)
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Recent files
+(require 'recentf)
+(recentf-mode 1)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Deshabilitar toolbar
 (if window-system
     (tool-bar-mode -1)
@@ -431,6 +437,9 @@
 (add-to-list 'company-backends 'company-web-jade)
 (add-to-list 'company-backends 'company-web-slim)
 
+(add-to-list 'default-frame-alist '(font . "DejaVu Sans Mono-9" ))
+(set-face-attribute 'default t :font "DejaVu Sans Mono-9")
+
 ;=================================================================
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -445,10 +454,11 @@
  '(auto-save-file-name-transforms (quote ((".*" "~/.emacs.d/autosaves/\\1" t))))
  '(backup-directory-alist (quote ((".*" . "~/.emacs.d/backups/"))))
  '(cmake-project-default-build-dir-name "build/")
+ '(cua-mode t nil (cua-base))
  '(custom-enabled-themes (quote (moe-dark)))
  '(custom-safe-themes
    (quote
-    ("5d139820639cd941c60033dcdd462bf5fffa76da549e6bdf1d83945803d30f01" "5d8caed7f4ed8929fd79e863de3a38fbb1aaa222970b551edfd2e84552fec020" "75c0b1d2528f1bce72f53344939da57e290aa34bea79f3a1ee19d6808cb55149" "cc495c40747ae22dd2de6e250cbd9a408e3588b59989368af565deeeff334126" "d72836155cd3b3e52fd86a9164120d597cbe12a67609ab90effa54710b2ac53b" "3328e7238e0f6d0a5e1793539dfe55c2685f24b6cdff099c9a0c185b71fbfff9" "6184465774e662dc5f3ddb0751b20d97aaff2ae95d5cf3c885b6c1944ddcb371" "17f35b689dd41e49cb740bfb810ac8a53d13292cbebf68f41f772787d8b3aebf" "e7ec0cc3ce134cc0bd420b98573bbd339a908ac24162b8034c98e1ba5ee1f9f6" default)))
+    ("ab8033276aa563bc7373f78aeefef69e1e25083266b44116341f0a8096657463" "5d4ac3ecdba50acac7738e9718447c1f7aaa530e9100f84d966ee63d7d3cf760" "092c4b8fedd5b82fe906571b5e7a7e32730e22b04e1848a2b6fed1599fcbd410" "40b7687853f3d6921eba3afed50c532bbf4a66959554d32adf1899a675926b2d" "15bd21e2ca1741a213b6c2488437b44250e8049e6fbcd1ffbacda8cbde295dcb" "602d25a1dda761706a79a1705fe5af70ab69e91c75bda5d0449ac4e11d886374" "e33ddbd957dfe0a2e64732e4491adaf2a7508aa6ea2da193ac5a3feca3c7aeec" "bb55fede752d2b7280219c1a8d2399aa1b35166ae4f1119583bbf4af0d9a26d4" "1a85c54c4e6b310d530a1b6e71fe658cc3b7aac62a12146062418b5dc7da126c" "eaf4cb94ad96e1659f9254db8efb799deb1885e97884f8f971ff1e6a4114500a" "5d139820639cd941c60033dcdd462bf5fffa76da549e6bdf1d83945803d30f01" "5d8caed7f4ed8929fd79e863de3a38fbb1aaa222970b551edfd2e84552fec020" "75c0b1d2528f1bce72f53344939da57e290aa34bea79f3a1ee19d6808cb55149" "cc495c40747ae22dd2de6e250cbd9a408e3588b59989368af565deeeff334126" "d72836155cd3b3e52fd86a9164120d597cbe12a67609ab90effa54710b2ac53b" "3328e7238e0f6d0a5e1793539dfe55c2685f24b6cdff099c9a0c185b71fbfff9" "6184465774e662dc5f3ddb0751b20d97aaff2ae95d5cf3c885b6c1944ddcb371" "17f35b689dd41e49cb740bfb810ac8a53d13292cbebf68f41f772787d8b3aebf" "e7ec0cc3ce134cc0bd420b98573bbd339a908ac24162b8034c98e1ba5ee1f9f6" default)))
  '(doxymacs-doxygen-style "C++!")
  '(ecb-compile-window-height 6)
  '(ecb-layout-name "right2")
@@ -465,20 +475,18 @@
  '(fci-rule-character-color "black")
  '(fci-rule-color "gray21")
  '(fci-rule-use-dashes t)
- '(font-use-system-font t)
  '(global-hl-line-mode nil)
  '(global-semantic-decoration-mode nil)
  '(indent-tabs-mode nil)
  '(inhibit-startup-screen t)
+ '(rainbow-delimiters-max-face-count 1)
  '(save-place t nil (saveplace))
  '(show-paren-mode t)
- '(tab-always-indent (quote complete)))
-
-
-
+ '(tab-always-indent (quote complete))
+ '(tool-bar-mode nil))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(default ((t (:family "DejaVu Sans Mono" :foundry "unknown" :slant normal :weight normal :height 90 :width normal)))))
+ '(default ((t (:family "PragmataPro" :foundry "unknown" :slant normal :weight normal :height 98 :width normal)))))
