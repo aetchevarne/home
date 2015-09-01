@@ -27,7 +27,7 @@ files() {
 
 alias mutt='env TERM=xterm-256color /usr/bin/mutt'
 
-sql() { echo -e "set wrap off\nset linesize 3000\nset colsep |\n" $* | sqlplus -silent intraway@ORCL/iwjaja }
+# sql() { echo -e "set wrap off\nset linesize 3000\nset colsep |\n" $* | sqlplus -silent intraway@ORCL/iwjaja }
 
 . /usr/lib/mc/mc.sh
 

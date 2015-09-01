@@ -173,6 +173,12 @@
 (eval-after-load 'company
   '(add-to-list 'company-backends 'company-c-headers))
 
+
+;; Quickhelp
+(require 'company-quickhelp)
+(company-quickhelp-mode 1)
+
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; Backend for irony
 (require 'irony)
@@ -195,6 +201,13 @@
 
 ;; Irony-eldoc
 (add-hook 'irony-mode-hook 'irony-eldoc)
+
+;; Irony headers
+(require 'company-irony-c-headers)
+;; Load with `irony-mode` as a grouped backend
+(eval-after-load 'company
+  '(add-to-list
+    'company-backends '(company-irony-c-headers company-irony)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Integración de irony con flycheck
