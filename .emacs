@@ -7,17 +7,35 @@
 (add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/"))
 (package-initialize)
 
+
+;; Bootstrap `use-package'
+(unless (package-installed-p 'use-package)
+  (package-refresh-contents)
+  (package-install 'use-package))
+
+(require 'use-package)
+
 ;; Para saber por qué tarda tanto en iniciar ( M-x benchmark-init )
-(require 'benchmark-init)
+;(require 'benchmark-init)
+(use-package benchmark-init
+  :ensure t
+  )
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Cua mode
 (cua-mode t)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; backup in one place. flat, no tree structure
+(setq backup-directory-alist '(("" . "~/.emacs.d/emacs-backup")))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Recent files
-(require 'recentf)
-(recentf-mode 1)
+;; (require 'recentf)
+;; (recentf-mode 1)
+(use-package recentf
+             :init (recentf-mode 1)
+)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Deshabilitar toolbar
@@ -30,20 +48,28 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Formato para números de línea
-(require 'linum)
-(defun my-activate-linum ()
-  (linum-mode t))
+;(require 'linum)
+;(defun my-activate-linum ()
+;  (linum-mode t))
 
-(add-hook 'text-mode-hook 'my-activate-linum)
-(add-hook 'prog-mode-hook 'my-activate-linum)
-(add-hook 'cmake-mode-hook 'my-activate-linum)
+;(add-hook 'text-mode-hook 'my-activate-linum)
+;(add-hook 'prog-mode-hook 'my-activate-linum)
+;(add-hook 'cmake-mode-hook 'my-activate-linum)
+
+(use-package linum
+  :ensure t
+  :config
+  (progn
+    (defun my-activate-linum ()  (linum-mode t))
+    (add-hook 'text-mode-hook 'my-activate-linum)
+    (add-hook 'prog-mode-hook 'my-activate-linum)
+    (add-hook 'cmake-mode-hook 'my-activate-linum)
+  )
+)
+
 
 ;(global-linum-mode t)
 (setq linum-format "%4d\u2502 ")
-
-;; Whitespace cleaner
-(require 'ws-butler)
-(add-hook 'prog-mode-hook 'ws-butler-mode)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Soportar mouse en xterm
@@ -51,8 +77,13 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Trailing whitespace
-(require 'ws-butler)
-(add-hook 'prog-mode-hook 'ws-butler-mode)
+;(require 'ws-butler)
+;(add-hook 'prog-mode-hook 'ws-butler-mode)
+
+(use-package ws-butler
+  :ensure t
+  :config (add-hook 'prog-mode-hook 'ws-butler-mode)
+)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Follow symlinks (and display a warning)
@@ -73,14 +104,18 @@
 ;; (ido-mode 1)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Helm
-(require 'helm-config)
-(setq helm-split-window-in-side-p          t ; open Helm buffer inside current window
+(use-package helm
+  :ensure t
+  :config
+  (progn
+    (setq helm-split-window-in-side-p      t ; open Helm buffer inside current window
       helm-move-to-line-cycle-in-source    t
       helm-autoresize-mode                 t
       )
+    (helm-mode t)
 
-(helm-mode t)
+    )
+ )
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Speedbar in the same frame
@@ -88,25 +123,25 @@
 ;; (global-set-key (kbd "s-s") 'sr-speedbar-toggle)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Yasnippet
-(require 'yasnippet)
-(yas-global-mode 1)
+(use-package yasnippet
+  :ensure t
+  :config (yas-global-mode 1)
+  )
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Color para los identificadores
-(require 'rainbow-identifiers)
-(add-hook 'prog-mode-hook 'rainbow-identifiers-mode)
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Flycheck
-(require 'flycheck)
-;; (add-hook 'after-init-hook #'global-flycheck-mode)
+(use-package rainbow-identifiers
+  :ensure t
+  :config (add-hook 'prog-mode-hook 'rainbow-identifiers-mode)
+)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
-(require 'powerline)
+(use-package powerline
+  :ensure t
+  )
 ; Replaced by powerline-moe-theme
-;(powerline-default-theme )
+;;(powerline-default-theme )
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Treat .h files as c++ files
@@ -118,14 +153,27 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; CEDET - semantic
-(require 'semantic)
-(require 'semantic/bovine/gcc)
-(semantic-mode 1)
-; Automatic reparsing of open buffers
-(global-semantic-idle-scheduler-mode 1)
-(global-semantic-idle-summary-mode 0)
-(add-to-list 'semantic-default-submodes 'global-semanticdb-minor-mode)
-(global-semantic-idle-local-symbol-highlight-mode 1)
+;(require 'semantic)
+;(require 'semantic/bovine/gcc)
+;(semantic-mode 1)
+;; Automatic reparsing of open buffers
+;(global-semantic-idle-scheduler-mode 1)
+;(global-semantic-idle-summary-mode 0)
+;(add-to-list 'semantic-default-submodes 'global-semanticdb-minor-mode)
+;(global-semantic-idle-local-symbol-highlight-mode 1)
+
+
+(use-package semantic
+  :config (progn
+            (global-semantic-idle-scheduler-mode 1)
+            (global-semantic-idle-summary-mode 0)
+            (add-to-list 'semantic-default-submodes 'global-semanticdb-minor-mode)
+            (global-semantic-idle-local-symbol-highlight-mode 1)
+            (semantic-mode 1)
+            )
+  )
+
+(use-package semantic/bovine/gcc)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; EDE
@@ -133,88 +181,118 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; ECB
-(require 'ecb)
-(global-set-key (kbd "C-e") 'ecb-activate)
-(setq ecb-show-sources-in-directories-buffer 'always)
-; (setq ecb-auto-activate t)
-(setq ecb-layout-name "right2")
-(setq ecb-options-version "2.40")
+;(require 'ecb)
+;(global-set-key (kbd "C-e") 'ecb-activate)
+;(setq ecb-show-sources-in-directories-buffer 'always)
+;; (setq ecb-auto-activate t)
+;(setq ecb-layout-name "right2")
+;(setq ecb-options-version "2.40")
+
+(use-package ecb
+  :config (progn
+            (global-set-key (kbd "C-e") 'ecb-activate)
+            (setq ecb-show-sources-in-directories-buffer 'always)
+                                        ; (setq ecb-auto-activate t)
+            (setq ecb-layout-name "right2")
+            (setq ecb-options-version "2.40")
+            )
+  )
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Projectile
-(projectile-global-mode)
-(setq projectile-enable-caching t)
+(use-package projectile
+  :ensure t
+  :config
+  (progn
+    (projectile-global-mode)
+    (setq projectile-enable-caching t)
 
-;; Integrate ecb - projectile
-(defvar default-ecb-source-path (list  '("~/" "~/")
+    ;; Integrate ecb - projectile
+    (defvar default-ecb-source-path (list  '("~/" "~/")
                                        '("/" "/")))
-(add-hook 'ecb-basic-buffer-sync-hook
-          (lambda ()
-            (when (functionp 'projectile-get-project-directories)
-              (when (projectile-project-p)
-                (dolist (path-dir (projectile-get-project-directories))
-                  (unless (member (list path-dir path-dir) default-ecb-source-path)
-                    (push (list path-dir path-dir) default-ecb-source-path)
-                    (customize-set-variable 'ecb-source-path default-ecb-source-path)
-                    ))))))
+    (add-hook 'ecb-basic-buffer-sync-hook
+              (lambda ()
+                (when (functionp 'projectile-get-project-directories)
+                  (when (projectile-project-p)
+                    (dolist (path-dir (projectile-get-project-directories))
+                      (unless (member (list path-dir path-dir) default-ecb-source-path)
+                        (push (list path-dir path-dir) default-ecb-source-path)
+                        (customize-set-variable 'ecb-source-path default-ecb-source-path)
+                        ))))))
+    )
+  )
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; clang-format
-(require 'clang-format)
-(global-set-key [C-M-tab] 'clang-format-region)
+(use-package clang-format
+  :config (global-set-key [C-M-tab] 'clang-format-region)
+  )
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Completion, company
-(require 'company)
-(add-hook 'after-init-hook 'global-company-mode)
+(use-package clang-format
+  :ensure t
+  :config (add-hook 'after-init-hook 'global-company-mode)
+  )
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Company c-headers
-(eval-after-load 'company
-  '(add-to-list 'company-backends 'company-c-headers))
+(use-package company-c-headers
+  :ensure t
+  :config
+  (eval-after-load 'company
+    '(add-to-list 'company-backends 'company-c-headers))
+  )
 
 
 ;; Quickhelp
-(require 'company-quickhelp)
-(company-quickhelp-mode 1)
-
+(use-package company-quickhelp
+  :ensure t
+  :config (company-quickhelp-mode 1)
+  )
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; Backend for irony
-(require 'irony)
-(eval-after-load 'company
-      '(add-to-list 'company-backends 'company-irony))
-(add-hook 'irony-mode-hook 'company-irony-setup-begin-commands)
+
+(use-package irony
+  :ensure t
+  :config (progn
+            (eval-after-load 'company
+              '(add-to-list 'company-backends 'company-irony))
+            (add-hook 'irony-mode-hook 'company-irony-setup-begin-commands)
+
+            (add-hook 'c++-mode-hook 'irony-mode)
+            (add-hook 'c-mode-hook 'irony-mode)
+            (add-hook 'objc-mode-hook 'irony-mode)
+            (defun my-irony-mode-hook ()
+              (define-key irony-mode-map [remap completion-at-point]
+                'irony-completion-at-point-async)
+              (define-key irony-mode-map [remap complete-symbol]
+                'irony-completion-at-point-async))
+            (add-hook 'irony-mode-hook 'my-irony-mode-hook)
+            (add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options)
+
+            ;; Irony-eldoc
+            (add-hook 'irony-mode-hook 'irony-eldoc)
+
+            )
+  )
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(use-package company-irony-c-headers
+  :ensure t
+  :config
+  (eval-after-load 'company
+    '(add-to-list
+      'company-backends '(company-irony-c-headers company-irony)))
+  )
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Irony 
-(add-hook 'c++-mode-hook 'irony-mode)
-(add-hook 'c-mode-hook 'irony-mode)
-(add-hook 'objc-mode-hook 'irony-mode)
-(defun my-irony-mode-hook ()
-  (define-key irony-mode-map [remap completion-at-point]
-    'irony-completion-at-point-async)
-  (define-key irony-mode-map [remap complete-symbol]
-    'irony-completion-at-point-async))
-(add-hook 'irony-mode-hook 'my-irony-mode-hook)
-(add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options)
 
-;; Irony-eldoc
-(add-hook 'irony-mode-hook 'irony-eldoc)
-
-;; Irony headers
-(require 'company-irony-c-headers)
-;; Load with `irony-mode` as a grouped backend
-(eval-after-load 'company
-  '(add-to-list
-    'company-backends '(company-irony-c-headers company-irony)))
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Integración de irony con flycheck
-(require 'flycheck)
-(eval-after-load 'flycheck
-  '(add-hook 'flycheck-mode-hook #'flycheck-irony-setup))
-(global-flycheck-mode t)
+(use-package flycheck
+  :ensure t
+  :config (progn
+            (add-hook 'flycheck-mode-hook #'flycheck-irony-setup)
+            (global-flycheck-mode t)
+            )
+  )
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
@@ -224,31 +302,41 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Rtags
-(require 'rtags)
-(add-hook 'find-file-hook 'rtags-start-process-maybe)
+;require 'rtags)
+;add-hook 'find-file-hook 'rtags-start-process-maybe)
+;setq rtags-path "/home/aetcheva/bin/")
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Cmake-project-mode
-(require 'cmake-project)
-; Usar cmake-project-mode en cmakelists.txt
-(add-hook 'cmake-mode-hook 'cmake-project-mode)
-; Usar automáticamente cmake-project-mode si hay un CMakeLists.txt en este directorio
-(defun maybe-cmake-project-hook ()
-  (if (file-exists-p "CMakeLists.txt")
-        (cmake-project-mode)
-    ))
+(use-package cmake-project
+  :ensure t
+  :init (progn
+          (defun maybe-cmake-project-hook ()
+            (if (file-exists-p "CMakeLists.txt")
+                (cmake-project-mode)
+              ))
+          (add-hook 'prog-mode-hook 'maybe-cmake-project-hook)
+          (add-hook 'cmake-mode-hook 'cmake-project-mode)
 
-(add-hook 'prog-mode-hook 'maybe-cmake-project-hook)
-(add-hook 'cmake-mode-hook 'cmake-project-mode)
+         )
+  :config (progn
+                                        ; Usar cmake-project-mode en cmakelists.txt
+            (add-hook 'cmake-mode-hook 'cmake-project-mode)
+                                        ; Usar automáticamente cmake-project-mode si hay un CMakeLists.txt en este directorio
+            )
+  )
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Doxymacs
-(require 'doxymacs)
-(add-hook 'c-mode-common-hook 'doxymacs-mode)
-(defun my-doxymacs-font-lock-hook ()
- (if (or (eq major-mode 'c-mode) (eq major-mode 'c++-mode))
-     (doxymacs-font-lock)))
-(add-hook 'font-lock-mode-hook 'my-doxymacs-font-lock-hook)
-(setq doxymacs-doxygen-style "C++!")
+(use-package doxymacs
+  :config (progn
+            (add-hook 'c-mode-common-hook 'doxymacs-mode)
+            (defun my-doxymacs-font-lock-hook ()
+              (if (or (eq major-mode 'c-mode) (eq major-mode 'c++-mode))
+                  (doxymacs-font-lock)))
+            (add-hook 'font-lock-mode-hook 'my-doxymacs-font-lock-hook)
+            (setq doxymacs-doxygen-style "C++!")
+            )
+  )
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; PHP mode
@@ -262,16 +350,35 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; git-gutter (marca diferencias en la línea)
-(require 'git-gutter)
-(global-git-gutter-mode 1)
-(git-gutter:linum-setup)
-(setq git-gutter:update-interval 2)
+(use-package git-gutter
+  :ensure t
+  :config (progn
+            (global-git-gutter-mode 1)
+            (git-gutter:linum-setup)
+            (setq git-gutter:update-interval 2)
+            )
+  )
 
 ;; Mover entre ventanas
-(require 'windmove)
-(windmove-default-keybindings 'meta)
+(use-package windmove
+  :ensure t
+  :config (windmove-default-keybindings 'meta)
+  )
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Markdown
+(use-package markdown-mode
+  :ensure t
+  :config
+  (progn
+    (autoload 'markdown-mode "markdown-mode"
+      "Major mode for editing Markdown files" t)
+    (add-to-list 'auto-mode-alist '("\\.text\\'" . markdown-mode))
+    (add-to-list 'auto-mode-alist '("\\.markdown\\'" . markdown-mode))
+    (add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode))
+    )
+  )
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Gnus
 ;; parts from https://github.com/dertuxmalwieder/My-Emacs-config/blob/master/.gnus.el
 (require 'gnus)
@@ -418,15 +525,28 @@
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(require 'magit)
-(setq magit-last-seen-setup-instructions "1.4.0")
-
+(use-package magit
+  :ensure t
+  :config (setq magit-last-seen-setup-instructions "1.4.0")
+  )
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Theme
-(require 'moe-theme)
-(moe-dark)
-(moe-theme-set-color 'green)
-(powerline-moe-theme)
+(use-package moe-theme
+  :ensure t
+  :config
+  (progn (moe-dark)
+         (moe-theme-set-color 'green)
+         )
+  )
+
+;;
+;; (powerline-moe-theme)
+
+
+(use-package spaceline-config
+  :ensure spaceline
+  :config (spaceline-emacs-theme)
+  )
 
 ;;
 (setq frame-title-format
@@ -471,7 +591,7 @@
  '(custom-enabled-themes (quote (moe-dark)))
  '(custom-safe-themes
    (quote
-    ("ab8033276aa563bc7373f78aeefef69e1e25083266b44116341f0a8096657463" "5d4ac3ecdba50acac7738e9718447c1f7aaa530e9100f84d966ee63d7d3cf760" "092c4b8fedd5b82fe906571b5e7a7e32730e22b04e1848a2b6fed1599fcbd410" "40b7687853f3d6921eba3afed50c532bbf4a66959554d32adf1899a675926b2d" "15bd21e2ca1741a213b6c2488437b44250e8049e6fbcd1ffbacda8cbde295dcb" "602d25a1dda761706a79a1705fe5af70ab69e91c75bda5d0449ac4e11d886374" "e33ddbd957dfe0a2e64732e4491adaf2a7508aa6ea2da193ac5a3feca3c7aeec" "bb55fede752d2b7280219c1a8d2399aa1b35166ae4f1119583bbf4af0d9a26d4" "1a85c54c4e6b310d530a1b6e71fe658cc3b7aac62a12146062418b5dc7da126c" "eaf4cb94ad96e1659f9254db8efb799deb1885e97884f8f971ff1e6a4114500a" "5d139820639cd941c60033dcdd462bf5fffa76da549e6bdf1d83945803d30f01" "5d8caed7f4ed8929fd79e863de3a38fbb1aaa222970b551edfd2e84552fec020" "75c0b1d2528f1bce72f53344939da57e290aa34bea79f3a1ee19d6808cb55149" "cc495c40747ae22dd2de6e250cbd9a408e3588b59989368af565deeeff334126" "d72836155cd3b3e52fd86a9164120d597cbe12a67609ab90effa54710b2ac53b" "3328e7238e0f6d0a5e1793539dfe55c2685f24b6cdff099c9a0c185b71fbfff9" "6184465774e662dc5f3ddb0751b20d97aaff2ae95d5cf3c885b6c1944ddcb371" "17f35b689dd41e49cb740bfb810ac8a53d13292cbebf68f41f772787d8b3aebf" "e7ec0cc3ce134cc0bd420b98573bbd339a908ac24162b8034c98e1ba5ee1f9f6" default)))
+    ("54a8c782a7a66e9aeb542af758f7f9f1a5702b956f425ffe15fccf5339f01f1e" "ff5acbbf20c7ba4889eb2b14395fcd55eeecbfb57853e47c7d514503ad83d6bb" "1fab355c4c92964546ab511838e3f9f5437f4e68d9d1d073ab8e36e51b26ca6a" "ab8033276aa563bc7373f78aeefef69e1e25083266b44116341f0a8096657463" "5d4ac3ecdba50acac7738e9718447c1f7aaa530e9100f84d966ee63d7d3cf760" "092c4b8fedd5b82fe906571b5e7a7e32730e22b04e1848a2b6fed1599fcbd410" "40b7687853f3d6921eba3afed50c532bbf4a66959554d32adf1899a675926b2d" "15bd21e2ca1741a213b6c2488437b44250e8049e6fbcd1ffbacda8cbde295dcb" "602d25a1dda761706a79a1705fe5af70ab69e91c75bda5d0449ac4e11d886374" "e33ddbd957dfe0a2e64732e4491adaf2a7508aa6ea2da193ac5a3feca3c7aeec" "bb55fede752d2b7280219c1a8d2399aa1b35166ae4f1119583bbf4af0d9a26d4" "1a85c54c4e6b310d530a1b6e71fe658cc3b7aac62a12146062418b5dc7da126c" "eaf4cb94ad96e1659f9254db8efb799deb1885e97884f8f971ff1e6a4114500a" "5d139820639cd941c60033dcdd462bf5fffa76da549e6bdf1d83945803d30f01" "5d8caed7f4ed8929fd79e863de3a38fbb1aaa222970b551edfd2e84552fec020" "75c0b1d2528f1bce72f53344939da57e290aa34bea79f3a1ee19d6808cb55149" "cc495c40747ae22dd2de6e250cbd9a408e3588b59989368af565deeeff334126" "d72836155cd3b3e52fd86a9164120d597cbe12a67609ab90effa54710b2ac53b" "3328e7238e0f6d0a5e1793539dfe55c2685f24b6cdff099c9a0c185b71fbfff9" "6184465774e662dc5f3ddb0751b20d97aaff2ae95d5cf3c885b6c1944ddcb371" "17f35b689dd41e49cb740bfb810ac8a53d13292cbebf68f41f772787d8b3aebf" "e7ec0cc3ce134cc0bd420b98573bbd339a908ac24162b8034c98e1ba5ee1f9f6" default)))
  '(doxymacs-doxygen-style "C++!")
  '(ecb-compile-window-height 6)
  '(ecb-layout-name "right2")

@@ -64,4 +64,4 @@ export ACE_ROOT=/opt/iway/deps/ACE_wrappers
 export ORACLE_HOME=/opt/iway/oracle/10.2.0.4/client64
 export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
 
-export ANSIBLE_CFG=$HOME/ansible/ansible.cfg
+export ANSIBLE_CONFIG=$HOME/ansible/ansible.cfg

@@ -16,7 +16,7 @@ Plugin 'tpope/vim-fugitive'
 Plugin 'rking/ag.vim'
 Plugin 'shougo/neocomplete.vim'
 Plugin 'sirver/ultisnips'
-Plugin 'bling/vim-airline'
+" Plugin 'bling/vim-airline'
 "Bundle 'severin-lemaignan/vim-minimap'
 
 call vundle#end()
