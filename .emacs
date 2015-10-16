@@ -116,7 +116,10 @@
 
     )
  )
-
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(use-package ag
+  :ensure t
+  )
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Speedbar in the same frame
 ;; (require 'sr-speedbar)
@@ -189,6 +192,7 @@
 ;(setq ecb-options-version "2.40")
 
 (use-package ecb
+  :ensure t
   :config (progn
             (global-set-key (kbd "C-e") 'ecb-activate)
             (setq ecb-show-sources-in-directories-buffer 'always)
@@ -289,10 +293,14 @@
 (use-package flycheck
   :ensure t
   :config (progn
-            (add-hook 'flycheck-mode-hook #'flycheck-irony-setup)
             (global-flycheck-mode t)
             )
   )
+
+(use-package flycheck-irony 
+  :ensure t
+  :config (eval-after-load 'flycheck '(add-hook 'flycheck-mode-hook #'flycheck-irony-setup))
+)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
@@ -377,6 +385,88 @@
     (add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode))
     )
   )
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Indentar cuando presione enter
+;(define-key global-map (kbd "RET") 'newline-and-indent)
+
+;; My shortcuts
+(global-set-key [f8] 'compile)
+(global-set-key [(control d)] 'comment-region)
+; no funciona en terminal
+(global-set-key [(control D)] 'uncomment-region)
+; (global-set-key [(control e)] 'ecb-toggle-ecb-windows)
+(global-set-key [(shift f3)] 'helm-projectile-ag)
+(global-set-key [f3] 'helm-occur-from-isearch)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; EMMS
+;; (require 'emms)
+;; (emms-standard)
+;; (emms-default-players)
+;; (setq emms-source-file-default-directory "/home/saknussemm/Misc/musica")
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Compilation window
+(setq compilation-scroll-output t)
+(setq ecb-compile-window-height-lines 10)
+(setq ecb-compile-window-temporally-enlarge 'after-selection)
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(use-package magit
+  :ensure t
+  :config (setq magit-last-seen-setup-instructions "1.4.0")
+  )
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Theme
+(use-package moe-theme
+  :ensure t
+  :config
+  (progn (moe-dark)
+         (moe-theme-set-color 'green)
+         )
+  )
+
+;;
+;; (powerline-moe-theme)
+
+
+(use-package spaceline-config
+  :ensure spaceline
+  :config (spaceline-emacs-theme)
+  )
+
+;;
+(setq frame-title-format
+      '((:eval (if (buffer-file-name)
+                   (abbreviate-file-name (buffer-file-name))
+                 "%b"))))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Tramp
+(setq tramp-default-method "ssh")
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; (require 'sublimity)
+;; (require 'sublimity-scroll)
+;; (require 'sublimity-map)
+;; (sublimity-global-mode 1)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Company-web
+(use-package company-web
+  :ensure t
+  :config (progn
+            (add-to-list 'company-backends 'company-web-html)
+            (add-to-list 'company-backends 'company-web-jade)
+            (add-to-list 'company-backends 'company-web-slim)
+            )
+  )
+
+
+(add-to-list 'default-frame-alist '(font . "DejaVu Sans Mono-9" ))
+(set-face-attribute 'default t :font "DejaVu Sans Mono-9")
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Gnus
@@ -497,81 +587,6 @@
 ;;                (vertical 1.0 (article 1.0)))))
 
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Indentar cuando presione enter
-;(define-key global-map (kbd "RET") 'newline-and-indent)
-
-;; My shortcuts
-(global-set-key [f8] 'compile)
-(global-set-key [(control d)] 'comment-region)
-; no funciona en terminal 
-(global-set-key [(control D)] 'uncomment-region)
-; (global-set-key [(control e)] 'ecb-toggle-ecb-windows)
-(global-set-key [(shift f3)] 'helm-projectile-ag)
-(global-set-key [f3] 'helm-occur-from-isearch)
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; EMMS
-;; (require 'emms)
-;; (emms-standard)
-;; (emms-default-players)
-;; (setq emms-source-file-default-directory "/home/saknussemm/Misc/musica")
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Compilation window
-(setq compilation-scroll-output t)
-(setq ecb-compile-window-height-lines 10)
-(setq ecb-compile-window-temporally-enlarge 'after-selection)
-
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(use-package magit
-  :ensure t
-  :config (setq magit-last-seen-setup-instructions "1.4.0")
-  )
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Theme
-(use-package moe-theme
-  :ensure t
-  :config
-  (progn (moe-dark)
-         (moe-theme-set-color 'green)
-         )
-  )
-
-;;
-;; (powerline-moe-theme)
-
-
-(use-package spaceline-config
-  :ensure spaceline
-  :config (spaceline-emacs-theme)
-  )
-
-;;
-(setq frame-title-format
-      '((:eval (if (buffer-file-name)
-                   (abbreviate-file-name (buffer-file-name))
-                 "%b"))))
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Tramp
-(setq tramp-default-method "ssh")
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; (require 'sublimity)
-;; (require 'sublimity-scroll)
-;; (require 'sublimity-map)
-;; (sublimity-global-mode 1)
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Company-web
-(add-to-list 'company-backends 'company-web-html)
-(add-to-list 'company-backends 'company-web-jade)
-(add-to-list 'company-backends 'company-web-slim)
-
-(add-to-list 'default-frame-alist '(font . "DejaVu Sans Mono-9" ))
-(set-face-attribute 'default t :font "DejaVu Sans Mono-9")
 
 ;=================================================================
 (custom-set-variables
