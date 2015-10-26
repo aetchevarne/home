@@ -37,6 +37,13 @@
              :init (recentf-mode 1)
 )
 
+(use-package ansible
+  :ensure t
+  )
+
+(use-package ansible-doc
+  :ensure t
+  )
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Deshabilitar toolbar
 (if window-system
