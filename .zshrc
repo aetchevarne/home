@@ -12,6 +12,7 @@ antigen use oh-my-zsh
 
 antigen bundle gitfast 
 antigen bundle svn-fast-info
+antigen bundle vagrant
 antigen bundle zsh-users/zsh-completions src
 antigen bundle zsh-users/zsh-syntax-highlighting
 

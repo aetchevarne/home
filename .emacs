@@ -115,6 +115,7 @@
   :ensure t
   :config
   (progn
+    (require 'helm-config)
     (setq helm-split-window-in-side-p      t ; open Helm buffer inside current window
       helm-move-to-line-cycle-in-source    t
       helm-autoresize-mode                 t
@@ -122,6 +123,7 @@
     (helm-mode t)
 
     )
+  :bind (("M-x" . helm-M-x))
  )
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (use-package ag
@@ -393,6 +395,10 @@
     )
   )
 
+;; Yaml
+(use-package yaml-mode
+  :ensure t
+  )
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Indentar cuando presione enter
 ;(define-key global-map (kbd "RET") 'newline-and-indent)
@@ -505,6 +511,7 @@
       gnus-summary-display-arrow t
       gnus-select-method '(nntp "news.gmane.org")
 
+      gnus-agent-cache t
       )
 
 ;; Eye candy 1
@@ -567,20 +574,20 @@
 (add-hook 'gnus-group-mode-hook 'gnus-topic-mode)                        ; use topic separation in the Group overview
 
 ;; reconfigure buffer positions for a wider screen
-(gnus-add-configuration  ; summary view
- '(summary
-   (horizontal 1.0
-               (vertical 1.0 (group 0.25) (summary 1.0 point)))))
-(gnus-add-configuration  ; article view
- '(article
-   (horizontal 1.0
-               (vertical 0.45 (group 0.25) (summary 1.0 point) ("*BBDB*" 0.15))
-               (vertical 1.0 (article 1.0)))))
-(gnus-add-configuration  ; post new stuff
- '(edit-form
-   (horizontal 1.0
-               (vertical 0.45 (group 0.25) (edit-form 1.0 point) ("*BBDB*" 0.15))\\\\
-               (vertical 1.0 (article 1.0)))))
+;(gnus-add-configuration  ; summary view
+; '(summary
+;   (horizontal 1.0
+;               (vertical 1.0 (group 0.25) (summary 1.0 point)))))
+;(gnus-add-configuration  ; article view
+; '(article
+;   (horizontal 1.0
+;               (vertical 0.45 (group 0.25) (summary 1.0 point) ("*BBDB*" 0.15))
+;               (vertical 1.0 (article 1.0)))))
+;(gnus-add-configuration  ; post new stuff
+; '(edit-form
+;   (horizontal 1.0
+;               (vertical 0.45 (group 0.25) (edit-form 1.0 point) ("*BBDB*" 0.15))\\\\
+;              (vertical 1.0 (article 1.0)))))
 
 ;; (gnus-add-configuration  ; score editing
 ;;  '(edit-score
