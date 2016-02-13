@@ -15,6 +15,8 @@ antigen bundle svn-fast-info
 antigen bundle vagrant
 antigen bundle zsh-users/zsh-completions src
 antigen bundle zsh-users/zsh-syntax-highlighting
+antigen bundle zsh-navigation-tools
+antigen bundle colored-man-pages
 
 #antigen theme gentoo
 antigen theme af-magic

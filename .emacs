@@ -419,6 +419,15 @@
 ;; (emms-default-players)
 ;; (setq emms-source-file-default-directory "/home/saknussemm/Misc/musica")
 
+(use-package w3m
+  :ensure t
+)
+
+(use-package cmake-ide
+  :ensure t
+  :config (cmake-ide-setup)
+  )
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Compilation window
 (setq compilation-scroll-output t)
@@ -587,8 +596,7 @@
 ; '(edit-form
 ;   (horizontal 1.0
 ;               (vertical 0.45 (group 0.25) (edit-form 1.0 point) ("*BBDB*" 0.15))\\\\
-;              (vertical 1.0 (article 1.0)))))
-
+;               (vertical 1.0 (article 1.0)))))
 ;; (gnus-add-configuration  ; score editing
 ;;  '(edit-score
 ;;    (horizontal 1.0
