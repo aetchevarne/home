@@ -451,7 +451,7 @@
   )
 
 ;;
-;; (powerline-moe-theme)
+(powerline-moe-theme)
 
 
 (use-package spaceline-config
