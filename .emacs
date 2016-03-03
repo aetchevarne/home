@@ -111,19 +111,25 @@
 ;; (ido-mode 1)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Reference: http://tuhdo.github.io/helm-intro.html
 (use-package helm
   :ensure t
   :config
   (progn
     (require 'helm-config)
     (setq helm-split-window-in-side-p      t ; open Helm buffer inside current window
-      helm-move-to-line-cycle-in-source    t
+      helm-move-to-line-cycle-in-source    t ; move to end or beginning of source when reaching top or bottom of source.
       helm-autoresize-mode                 t
       )
     (helm-mode t)
 
     )
-  :bind (("M-x" . helm-M-x))
+  :bind (("M-x" . helm-M-x)
+         ("M-y" . helm-show-kill-ring)
+         ("C-b" . helm-mini)
+         ("C-f" . helm-find-files)
+         ("C-s" . helm-occur)
+        )
  )
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (use-package ag
@@ -215,9 +221,11 @@
 ;; Projectile
 (use-package projectile
   :ensure t
+  :init (progn
+          (projectile-global-mode)
+          )
   :config
   (progn
-    (projectile-global-mode)
     (setq projectile-enable-caching t)
 
     ;; Integrate ecb - projectile
@@ -246,6 +254,12 @@
   :config (add-hook 'after-init-hook 'global-company-mode)
   )
 
+(use-package company
+  :ensure t
+  :commands global-company-mode
+  :init (global-company-mode)
+
+)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (use-package company-c-headers
   :ensure t
@@ -301,12 +315,10 @@
 
 (use-package flycheck
   :ensure t
-  :config (progn
-            (global-flycheck-mode t)
-            )
+  :init (global-flycheck-mode)
   )
 
-(use-package flycheck-irony 
+(use-package flycheck-irony
   :ensure t
   :config (eval-after-load 'flycheck '(add-hook 'flycheck-mode-hook #'flycheck-irony-setup))
 )
@@ -438,7 +450,22 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (use-package magit
   :ensure t
-  :config (setq magit-last-seen-setup-instructions "1.4.0")
+  :config  (setq magit-last-seen-setup-instructions "1.4.0")
+  :bind (("<f7>" . magit-status))
+  )
+
+(use-package git-timemachine
+  :ensure t
+  )
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(use-package undo-tree
+  :ensure t
+  :init (progn
+          (global-undo-tree-mode)
+           (setq undo-tree-visualizer-timestamps t)
+           (setq undo-tree-visualizer-diff t)
+           )
   )
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Theme
